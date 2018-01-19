@@ -1,5 +1,5 @@
 #!/bin/bash
-git pull
+#git pull
 docker build . -t parrot:latest
 docker stop parrot
 docker rm parrot
