@@ -3,24 +3,45 @@ const http = require('http');
 const {Readable} = require('stream');
 const colors = require('colors/safe');
 
-const frames = [];
+const animationsArray = new Object();
+const animationNames = [];
+
+createAnimation("hahaface")
+createAnimation("parrot")
+
+fs.readdirSync('./animations/').forEach(file => {
+  animationNames.push(file);
+})
+
+//get All frames
+function createAnimation(name){
+  animationsArray[name] = getFrames(name);
+}
 
 // Setup frames in memory
-fs.readdir('./frames').then(data => { 
+
+function getFrames(name){
+  var frames = [];
+fs.readdir(`./animations/${name}`).then(data => { 
   data.forEach(async frame => {
-    const f = await fs.readFile(`./frames/${frame}`);
+    const f = await fs.readFile(`./animations/${name}/${frame}`);
     frames.push(f.toString());
   })
 });
+return frames;
+}
 
 const colorsOptions = ['red', 'yellow', 'green', 'blue', 'magenta', 'cyan', 'white'];
 const numColors = colorsOptions.length;
 
 const streamer = stream => {
+  let animation = Math.floor(Math.random() * animationNames.length);
   let index = 0;
   let lastColor = -1;
   let newColor = 0;
   return setInterval(() => {
+
+    var frames = animationsArray[animationNames[animation]]
     if (index >= frames.length) index = 0; stream.push('\033c');
 
     newColor = Math.floor(Math.random() * numColors);
@@ -59,4 +80,5 @@ const port = process.env.PARROT_PORT || 3000;
 server.listen(port, err => {
   if (err) throw err;
   console.log(`Listening on locahost:${port}`);
+
 });
