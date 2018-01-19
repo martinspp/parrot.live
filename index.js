@@ -5,8 +5,8 @@ const colors = require('colors/safe');
 
 const animationsArray = new Object();
 
-createAnimation("frames")
-createAnimation("frames.old")
+createAnimation("hahaface")
+createAnimation("parrot")
 
 //get All frames
 function createAnimation(name){
@@ -17,9 +17,9 @@ function createAnimation(name){
 
 function getFrames(name){
   var frames = [];
-fs.readdir(`./${name}`).then(data => { 
+fs.readdir(`./animations/${name}`).then(data => { 
   data.forEach(async frame => {
-    const f = await fs.readFile(`./${name}/${frame}`);
+    const f = await fs.readFile(`./animations/${name}/${frame}`);
     frames.push(f.toString());
   })
 });
@@ -34,7 +34,7 @@ const streamer = stream => {
   let lastColor = -1;
   let newColor = 0;
   return setInterval(() => {
-    var frames = animationsArray["frames.old"]
+    var frames = animationsArray["parrot"]
     if (index >= frames.length) index = 0; stream.push('\033c');
 
     newColor = Math.floor(Math.random() * numColors);
