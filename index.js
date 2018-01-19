@@ -6,15 +6,14 @@ const colors = require('colors/safe');
 const animationsArray = new Object();
 const animationNames = [];
 
-createAnimation("hahaface")
-createAnimation("parrot")
 
-fs.readdirSync('./animations/').forEach(file => {
-  animationNames.push(file);
+fs.readdirSync('./animations/').forEach(async file => {
+  createAnimation(file)
 })
 
 //get All frames
 function createAnimation(name){
+  animationNames.push(name);
   animationsArray[name] = getFrames(name);
 }
 
