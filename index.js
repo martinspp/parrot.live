@@ -30,7 +30,7 @@ fs.readdir(`./animations/${name}`).then(data => {
 return frames;
 }
 
-const colorsOptions = ['red', 'yellow', 'green', 'blue', 'magenta', 'cyan', 'white'];
+const colorsOptions = ['\033[0;31m', '\033[0;33m', '\033[0;32m', '\033[0;34m', '\033[0;35m', '\033[0;36m', '\033[0;37m'];
 const numColors = colorsOptions.length;
 
 const streamer = stream => {
@@ -51,11 +51,12 @@ const streamer = stream => {
       newColor %= numColors;
     }
 
-    lastColor = newColor;
-    stream.push(colors[colorsOptions[newColor]](frames[index]));
+    lastColor = newColor;3
+    chunk = colorsOptions[newColor] + frames[index]
+    stream.push(chunk);
 
     index++;
-  }, 70);
+  }, 150);
 }
 
 const server = http.createServer((req, res) => {
